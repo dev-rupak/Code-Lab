@@ -3,9 +3,20 @@ package Java.Practice;
 public class Revision {
     public static void main(String args[]) {
         Revision rev = new Revision();
-        for (int i = 0; i <= 100; i++) {
-            System.out.println(i + "\t" + rev.isPrime(i));
+
+        System.out.println(rev.binary2Decimal(101));
+
+    }
+
+    int binary2Decimal(int bin) {
+        int decimal = 0, pow = 0;
+        while (bin > 0) {
+            int lastdigit = bin % 10;
+            decimal = decimal + (int) (lastdigit * Math.pow(2, pow));
+            bin /= 10;
+            pow++;
         }
+        return decimal;
     }
 
     boolean isPrime(int num) {
