@@ -4,8 +4,29 @@ public class Revision {
     public static void main(String args[]) {
         Revision rev = new Revision();
 
-        System.out.println(rev.binary2Decimal(101));
+        System.out.println(rev.reverseDigit(123));
 
+    }
+
+    int reverseDigit(int num) {
+        int revNum = 0;
+        while (num > 0) {
+            int lastdigit = num % 10;
+            revNum = (int) (revNum * 10) + lastdigit;
+            num /= 10;
+        }
+        return revNum;
+    }
+
+    int decimal2Binary(int dec) {
+        int bin = 0, pow = 0;
+        while (dec > 0) {
+            int remainder = dec % 2;
+            bin = bin + (int) (remainder * Math.pow(10, pow));
+            dec /= 2;
+            pow++;
+        }
+        return bin;
     }
 
     int binary2Decimal(int bin) {
