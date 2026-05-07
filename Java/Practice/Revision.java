@@ -17,10 +17,45 @@ public class Revision {
         // System.out.print("Enter key : ");
         // int key = sc.nextInt();
         // System.out.println(rev.binarySearch(arr, key));
-        rev.kadenAlgo(arr);
+        // rev.kadenAlgo(arr);
         // System.out.println("reverse number is : " + Arrays.toString(arr));
+        System.out.println("Max profit " + rev.profit(arr));
 
         sc.close();
+    }
+
+    int profit(int price[]) {
+        int maxProfit = 0;
+        int buyPrice = Integer.MAX_VALUE;
+
+        for (int i = 0; i < price.length; i++) {
+            if (buyPrice > price[i]) {
+                buyPrice = price[i];
+            } else {
+                maxProfit = Math.max(maxProfit, price[i] - buyPrice);
+            }
+        }
+        return maxProfit;
+    }
+
+    int trappedRainwater(int height[]) {
+        int num = height.length;
+        int leftbound[] = new int[num];
+        int rightbound[] = new int[num];
+        leftbound[0] = height[0];
+        rightbound[num - 1] = height[num - 1];
+        for (int i = 1; i < num; i++) {
+            leftbound[i] = Math.max(leftbound[i - 1], height[i]);
+        }
+        for (int i = num - 2; i >= 0; i--) {
+            rightbound[i] = Math.max(rightbound[i + 1], height[i]);
+        }
+        int trappedWater = 0;
+        for (int i = 0; i < num; i++) {
+            int waterLevel = Math.min(rightbound[i], leftbound[i]);
+            trappedWater += waterLevel - height[i];
+        }
+        return trappedWater;
     }
 
     void kadenAlgo(int arr[]) {
