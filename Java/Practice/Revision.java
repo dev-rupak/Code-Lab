@@ -8,20 +8,73 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        int arr[] = new int[5];
+        System.out.printf("How much number you want to enter: ");
+        int arrLength = sc.nextInt();
+        int arr[] = new int[arrLength];
         System.out.printf("Enter %d number : ", arr.length);
         for (int i = 0; i < arr.length; i++) {
             arr[i] = sc.nextInt();
         }
 
-        // System.out.print("Enter key : ");
-        // int key = sc.nextInt();
-        // System.out.println(rev.binarySearch(arr, key));
-        // rev.kadenAlgo(arr);
-        // System.out.println("reverse number is : " + Arrays.toString(arr));
-        System.out.println("Max profit " + rev.profit(arr));
+        rev.insertionSort(arr);
+        System.out.println("after bubble sort : " + Arrays.toString(arr));
 
         sc.close();
+    }
+
+    void countingSort(int arr[]) {
+        int largest = largestInArray(arr);
+        int count[] = new int[largest + 1];
+        for (int i = 0; i < arr.length; i++) {
+            count[arr[i]]++;
+        }
+        int j = 0;
+        for (int i = 0; i < count.length; i++) {
+            while (count[i] > 0) {
+                arr[j] = i;
+                count[i]--;
+                j++;
+            }
+        }
+    }
+
+    // Basic Sorting Algoritham
+    void insertionSort(int arr[]) {
+        for (int i = 1; i < arr.length; i++) {
+            int curr = arr[i];
+            int prev = i - 1;
+            while (prev >= 0 && arr[prev] >= curr) {
+                arr[prev + 1] = arr[prev];
+                prev--;
+            }
+            arr[prev + 1] = curr;
+        }
+    }
+
+    void selectionSort(int arr[]) {
+        for (int i = 0; i < arr.length; i++) {
+            int small = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[small] > arr[j]) {
+                    small = j;
+                }
+            }
+            int tmp = arr[i];
+            arr[i] = arr[small];
+            arr[small] = tmp;
+        }
+    }
+
+    void bubbleSort(int arr[]) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length - 1; j++) {
+                if (arr[j] >= arr[j + 1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = tmp;
+                }
+            }
+        }
     }
 
     int profit(int price[]) {
