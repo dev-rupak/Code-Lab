@@ -8,16 +8,48 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        int matrix[][] = {
-                { 1, 2, 3, 4 },
-                { 5, 6, 7, 8 },
-                { 9, 10, 11, 12 },
-                { 13, 14, 15, 16 }
-        };
-
-        rev.searchInSortedMatrix(matrix, 13);
+        System.out.println(5 >> 2);
 
         sc.close();
+    }
+
+    void shortestPathString(String str) {
+        if (str == null || str.length() == 0) {
+            System.out.println("Shortest path = 0.0");
+            return;
+        }
+
+        String upperStr = str.toUpperCase();
+
+        int x = 0, y = 0;
+        for (int i = 0; i < upperStr.length(); i++) {
+            char direction = upperStr.charAt(i);
+            if (direction == 'W') {
+                x--;
+            } else if (direction == 'E') {
+                x++;
+            } else if (direction == 'N') {
+                y++;
+            } else if (direction == 'S') {
+                y--;
+            }
+        }
+        float path = (float) Math.sqrt(x * x + y * y);
+        System.out.println("Shortest path = " + path);
+    }
+
+    boolean palindromeString(String str) {
+        if (str == null) {
+            return false;
+        }
+        int letter = str.length() - 1;
+
+        for (int i = 0; i <= letter / 2; i++) {
+            if (str.charAt(i) != str.charAt(letter - i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     void searchInSortedMatrix(int mat[][], int key) {
