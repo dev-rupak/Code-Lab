@@ -8,18 +8,95 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        System.out.printf("How much number you want to enter: ");
-        int arrLength = sc.nextInt();
-        int arr[] = new int[arrLength];
-        System.out.printf("Enter %d number : ", arr.length);
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = sc.nextInt();
-        }
+        int matrix[][] = {
+                { 1, 2, 3, 4 },
+                { 5, 6, 7, 8 },
+                { 9, 10, 11, 12 },
+                { 13, 14, 15, 16 }
+        };
 
-        rev.insertionSort(arr);
-        System.out.println("after bubble sort : " + Arrays.toString(arr));
+        rev.searchInSortedMatrix(matrix, 13);
 
         sc.close();
+    }
+
+    void searchInSortedMatrix(int mat[][], int key) {
+        int startRow = 0;
+        int endRow = mat.length - 1;
+        int startCol = 0;
+        int endCol = mat[0].length - 1;
+
+        boolean found = false;
+
+        while (endCol >= startCol && startRow <= endRow) {
+            if (key == mat[startRow][endCol]) {
+                System.out.println("Key found at index (" + startRow + ", " + endCol + ").");
+                found = true;
+                break;
+            } else if (key < mat[startRow][endCol]) {
+                endCol--;
+            } else if (key > mat[startRow][endCol]) {
+                startRow++;
+            }
+        }
+
+        if (!found) {
+            System.out.println("key not found");
+        }
+    }
+
+    void diagonalSum(int mat[][]) {
+        int sum = 0;
+        if (mat.length != mat[0].length) {
+            System.out.println("Diagonal sum not possible.");
+        } else {
+            for (int i = 0; i < mat.length; i++) {
+                sum += mat[i][i];
+                if (i != mat.length - i - 1) {
+                    sum += mat[i][mat.length - i - 1];
+                }
+            }
+        }
+        System.out.println("Diagonal Sum = " + sum);
+    }
+
+    void spiralMatrix(int matrix[][]) {
+        int startRow = 0;
+        int endRow = matrix.length - 1;
+        int startCol = 0;
+        int endCol = matrix[0].length - 1;
+
+        while (startRow <= endRow && startCol <= endCol) {
+            // top
+            for (int col = startCol; col <= endCol; col++) {
+                System.out.print(matrix[startRow][col] + "\t");
+            }
+            // right
+            for (int row = startRow + 1; row <= endRow; row++) {
+                System.out.print(matrix[row][endCol] + "\t");
+            }
+            // bottom
+            for (int col = endCol - 1; col >= startCol; col--) {
+                if (startRow == endRow) {
+                    break;
+                } else {
+                    System.out.print(matrix[endRow][col] + "\t");
+                }
+            }
+            // left
+            for (int row = endRow - 1; row >= startRow + 1; row--) {
+                if (startCol == endCol) {
+                    break;
+                } else {
+                    System.out.print(matrix[row][startCol] + "\t");
+                }
+            }
+
+            startRow++;
+            endRow--;
+            startCol++;
+            endCol--;
+        }
     }
 
     void countingSort(int arr[]) {
