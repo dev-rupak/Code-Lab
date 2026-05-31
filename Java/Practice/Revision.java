@@ -8,9 +8,78 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println(5 >> 2);
+        System.out.println(rev.fastExponent(25, 2));
 
         sc.close();
+    }
+
+    int fastExponent(int num, int exp) {
+        int ans = 1;
+        while (exp > 0) {
+            if ((exp & 1) == 1) {
+                ans *= num;
+            }
+            num *= num;
+            exp = exp >> 1;
+        }
+        return ans;
+    }
+
+    void countBitInNum(int num) {
+        int count = 0;
+        while (num > 0) {
+            if ((num & 1) == 1) {
+                count++;
+            }
+            num = num >> 1;
+        }
+        System.out.println(count);
+    }
+
+    boolean powerOf2OrNot(int num) {
+        if ((num & (num - 1)) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    void clearBitRange(int num, int i, int j) {
+        int leftmask = ((~0) << (j + 1));
+        int rightmask = ((1 << i) - 1);
+        int mask = leftmask | rightmask;
+        System.out.println(num & mask);
+    }
+
+    void upadteTheiTHbit(int num, int i, int val) {
+        if (val == 0 || val == 1) {
+            System.out.println((num & (~(1 << i))) | (val << i));
+        }
+    }
+
+    void clearTheiTHbit(int num, int i) {
+        System.out.println(num & (~(1 << i)));
+    }
+
+    void setTheiTHbit(int num, int i) {
+        System.out.println(num | (1 << i));
+    }
+
+    void getTheiTHbit(int num, int i) {
+        if ((num & (1 << i)) == 0) {
+            System.out.println("ith bit is 0");
+        } else {
+            System.out.println("ith bit is 1");
+        }
+    }
+
+    boolean oddOrNot(int num) {
+        int bitmask = 1;
+        if ((num & bitmask) == 1) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     void shortestPathString(String str) {
