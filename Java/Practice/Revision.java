@@ -8,9 +8,147 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        System.out.println(rev.fastExponent(25, 2));
+        rev.printBinString(3, 0, "");
 
         sc.close();
+    }
+
+    void printBinString(int num, int lastdigit, String sb) {
+        if (num == 0) {
+            System.out.println(sb);
+            return;
+        }
+        printBinString(num - 1, 0, sb + '0');
+        if (lastdigit == 0) {
+            printBinString(num - 1, 1, sb + '1');
+        }
+    }
+
+    int friendsPair(int friend) {
+        if (friend == 1 || friend == 2) {
+            return friend;
+        }
+        int single = friendsPair(friend - 1);
+        int pair = (friend - 1) * friendsPair(friend - 2);
+
+        return single + pair;
+    }
+
+    void removeDuplicate(String str, int idx, StringBuilder sb, boolean map[]) {
+        if (idx == str.length()) {
+            System.out.println(sb.toString());
+            return;
+        }
+        char currChar = str.charAt(idx);
+        if (map[currChar - 'a'] == true) {
+            removeDuplicate(str, idx + 1, sb, map);
+        } else {
+            map[currChar - 'a'] = true;
+            removeDuplicate(str, idx + 1, sb.append(currChar), map);
+        }
+    }
+
+    int tilingWays(int num) {
+        // 2 * num - area
+        // 2 * 1 - tile area
+        if (num == 0 || num == 1) {
+            return 1;
+        }
+        int vertical = tilingWays(num - 1);
+        int horizontal = tilingWays(num - 2);
+
+        return vertical + horizontal;
+    }
+
+    int optimizedPower(int num, int exp) {
+        if (exp == 0) {
+            return 1;
+        }
+        int halfpower = optimizedPower(num, exp / 2);
+        if (exp % 2 == 0) {
+            return halfpower * halfpower;
+        } else {
+            return num * halfpower * halfpower;
+        }
+    }
+
+    int power(int num, int exp) {
+        if (exp == 0) {
+            return 1;
+        }
+        return num * power(num, exp - 1);
+    }
+
+    int lastOccurance(int arr[], int key, int i) {
+        if (i == arr.length) {
+            return -1;
+        }
+        int isFound = lastOccurance(arr, key, i + 1);
+        if (isFound == -1 && arr[i] == key) {
+            return i;
+        } else {
+            return isFound;
+        }
+    }
+
+    int firstOccurance(int arr[], int key, int i) {
+        if (i == arr.length) {
+            return -1;
+        }
+        if (arr[i] == key) {
+            return i;
+        } else {
+            return firstOccurance(arr, key, i + 1);
+        }
+    }
+
+    boolean arraySortedOrNot(int arr[], int i) {
+        if (i == arr.length - 1) {
+            return true;
+        }
+        if (arr[i] > arr[i + 1]) {
+            return false;
+        }
+        return arraySortedOrNot(arr, i + 1);
+    }
+
+    int fibbonacci(int num) {
+        if (num == 0 || num == 1) {
+            return num;
+        }
+        return fibbonacci(num - 1) + fibbonacci(num - 2);
+    }
+
+    int sumOfNnum(int num) {
+        if (num == 1) {
+            return 1;
+        }
+        return num + sumOfNnum(num - 1);
+    }
+
+    int factorial(int num) {
+        if (num == 1) {
+            return 1;
+        }
+        return num * factorial(num - 1);
+    }
+
+    void printIncreasingNumOrder(int num) {
+        if (num == -1) {
+            return;
+        }
+
+        printIncreasingNumOrder(num - 1);
+        System.out.print(num + "\t");
+    }
+
+    void printDecreasingNumOrder(int num) {
+        if (num == -1) {
+            return;
+        }
+
+        System.out.print(num + "\t");
+        printDecreasingNumOrder(num - 1);
     }
 
     int fastExponent(int num, int exp) {
