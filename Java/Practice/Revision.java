@@ -8,9 +8,114 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        rev.printBinString(3, 0, "");
+        int arr[] = { 4, 5, 6, 7, 0, 1, 2 };
+        System.out.println(rev.search(arr, 0, 0, arr.length - 1));
 
         sc.close();
+    }
+
+    int search(int arr[], int target, int si, int ei) {
+        if (si > ei) {
+            return -1;
+        }
+
+        int mid = si + (ei - si) / 2;
+
+        if (arr[mid] == target) {
+            return mid;
+        }
+
+        if (arr[si] <= arr[mid]) {
+            if (arr[si] <= target && target <= arr[mid]) {
+                return search(arr, target, si, mid - 1);
+            } else {
+                return search(arr, target, mid + 1, ei);
+            }
+        } else {
+            if (arr[mid] <= target && target <= arr[ei]) {
+                return search(arr, target, mid + 1, ei);
+            } else {
+                return search(arr, target, si, mid - 1);
+            }
+        }
+    }
+
+    void quickSort(int arr[], int si, int ei) {
+        if (si >= ei) {
+            return;
+        }
+
+        int pIdx = partition(arr, si, ei);
+        quickSort(arr, si, pIdx - 1);
+        quickSort(arr, pIdx + 1, ei);
+    }
+
+    int partition(int arr[], int si, int ei) {
+        int pivot = arr[ei];
+        int i = si - 1;
+
+        for (int j = si; j < ei; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+                int temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
+            }
+        }
+
+        i++;
+        arr[ei] = arr[i];
+        arr[i] = pivot;
+
+        return i;
+    }
+
+    void mergeSort(int arr[], int si, int ei) {
+        if (si >= ei) {
+            return;
+        }
+
+        int mid = si + (ei - si) / 2;
+
+        mergeSort(arr, si, mid);
+        mergeSort(arr, mid + 1, ei);
+
+        merge(arr, si, mid, ei);
+    }
+
+    void merge(int arr[], int si, int mid, int ei) {
+        int temp[] = new int[ei - si + 1];
+        int leftId = si;
+        int rightId = mid + 1;
+        int tempId = 0;
+
+        while (leftId <= mid && rightId <= ei) {
+            if (arr[leftId] < arr[rightId]) {
+                temp[tempId] = arr[leftId];
+                tempId++;
+                leftId++;
+            } else {
+                temp[tempId] = arr[rightId];
+                tempId++;
+                rightId++;
+            }
+        }
+
+        while (leftId <= mid) {
+            temp[tempId] = arr[leftId];
+            tempId++;
+            leftId++;
+        }
+
+        while (rightId <= ei) {
+            temp[tempId] = arr[rightId];
+            tempId++;
+            rightId++;
+        }
+
+        for (int i = 0, j = si; i < temp.length; i++, j++) {
+            arr[j] = temp[i];
+        }
     }
 
     void printBinString(int num, int lastdigit, String sb) {
