@@ -8,12 +8,166 @@ public class Revision {
         Revision rev = new Revision();
         Scanner sc = new Scanner(System.in);
 
-        int arr[] = { 4, 5, 6, 7, 0, 1, 2 };
-        System.out.println(rev.search(arr, 0, 0, arr.length - 1));
+        int sudoku[][] = {
+                { 0, 0, 8, 0, 0, 0, 0, 0, 0 },
+                { 4, 9, 0, 1, 5, 7, 0, 0, 2 },
+                { 0, 0, 3, 0, 0, 4, 1, 9, 0 },
+                { 1, 8, 5, 0, 6, 0, 0, 2, 0 },
+                { 0, 0, 0, 0, 2, 0, 0, 6, 0 },
+                { 9, 6, 0, 4, 0, 5, 3, 0, 0 },
+                { 0, 3, 0, 0, 7, 2, 0, 0, 4 },
+                { 0, 4, 9, 0, 3, 0, 0, 5, 7 },
+                { 8, 2, 7, 0, 0, 9, 0, 1, 3 }
+        };
+        rev.sudukoSolver(sudoku, 0, 0);
 
         sc.close();
     }
 
+    // backtracking
+
+    // suduko
+    boolean sudukoSolver(int suduko[][], int row, int col) {
+        if (row == 9 && col == 0) {
+            System.out.println((Arrays.deepToString(suduko)).replace("], [", "],\n ["));
+            return true;
+        }
+
+        int nextRow = row, nextCol = col + 1;
+        if (nextCol == 9) {
+            nextRow = row + 1;
+            nextCol = 0;
+        }
+        if (suduko[row][col] != 0) {
+            return sudukoSolver(suduko, nextRow, nextCol);
+        }
+        for (int digit = 1; digit <= 9; digit++) {
+            if (isSafe(suduko, row, col, digit)) {
+                suduko[row][col] = digit;
+                if (sudukoSolver(suduko, nextRow, nextCol)) {
+                    return true;
+                }
+                suduko[row][col] = 0;
+            }
+        }
+
+        return false;
+    }
+
+    boolean isSafe(int[][] suduko, int row, int col, int digit) {
+        for (int i = 0; i < 9; i++) {
+            if (suduko[row][i] == digit) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            if (suduko[i][col] == digit) {
+                return false;
+            }
+        }
+
+        int startRow = (row / 3) * 3;
+        int startCol = (col / 3) * 3;
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (suduko[i][j] == digit) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    // gridways
+    int gridWays(int startrow, int startcol, int endrow, int endcol) {
+        if (startrow == endrow - 1 && startcol == endcol - 1) {
+            return 1;
+        }
+        if (startrow == endrow || startcol == endcol) {
+            return 0;
+        }
+
+        return gridWays(startrow + 1, startcol, endrow, endcol) + gridWays(startrow, startcol + 1, endrow, endcol);
+    }
+
+    // nQueen
+    void nQueen(char board[][], int row) {
+        if (row == board.length) {
+            System.out.println("......Chess Board......");
+            System.out.println(Arrays.deepToString(board).replace("], [", "],\n ["));
+            return;
+        }
+
+        for (int col = 0; col < board[0].length; col++) {
+            if (isSafe(board, row, col)) {
+                board[row][col] = 'Q';
+                nQueen(board, row + 1);
+                board[row][col] = 'X';
+            }
+        }
+    }
+
+    boolean isSafe(char board[][], int row, int col) {
+        for (int i = row - 1; i >= 0; i--) {
+            if (board[i][col] == 'Q') {
+                return false;
+            }
+        }
+
+        for (int i = row - 1, j = col - 1; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        for (int i = row - 1, j = col + 1; i >= 0 && j < board.length; i--, j++) {
+            if (board[i][j] == 'Q') {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // permutation
+    void permutation(String str, String ans) {
+        if (str.length() == 0) {
+            System.out.println(ans);
+            return;
+        }
+
+        for (int i = 0; i < str.length(); i++) {
+            char curr = str.charAt(i);
+            String newStr = str.substring(0, i) + str.substring(i + 1);
+            permutation(newStr, ans + curr);
+        }
+    }
+
+    // find subsets
+    void subset(String str, String ans, int idx) {
+        if (idx == str.length()) {
+            System.out.println(ans);
+            return;
+        }
+
+        subset(str, ans + str.charAt(idx), idx + 1);
+        subset(str, ans, idx + 1);
+    }
+
+    // backtracking on arrays
+    void btArray(int arr[], int idx, int num) {
+        if (idx == arr.length) {
+            System.out.println(Arrays.toString(arr));
+            return;
+        }
+        arr[idx] = num;
+        btArray(arr, idx + 1, num + 1);
+        arr[idx] -= 2;
+    }
+
+    // divide & conquer
     int search(int arr[], int target, int si, int ei) {
         if (si > ei) {
             return -1;
